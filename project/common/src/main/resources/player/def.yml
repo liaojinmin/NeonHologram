@@ -1,0 +1,9 @@
+hologram:
+  owner: uuid
+  option:
+    location: world;1.0;70.0;1.0
+    visibleByDistance: 32
+  context:
+    - "&f这是 &bGeekHologram &f全息面板插件"
+    # 如果行包含变量，则自动添加一个每秒刷新
+    - "&f名称: &6%player_name%  {update:20}"

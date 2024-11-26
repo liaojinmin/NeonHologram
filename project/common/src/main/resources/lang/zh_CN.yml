@@ -1,0 +1,187 @@
+# 全息图
+全息-传送成功:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_HARP
+    volume: 1
+    pitch: 1
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&e    已将您传送至 &f{0} &e附近...'
+  - '&l'
+全息-移动成功:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_HARP
+    volume: 1
+    pitch: 1
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&e    已将全息图 &f{0} &e移动至 &f{1} &e附近...'
+  - '&l'
+全息-查找-不存在:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_DIDGERIDOO
+    volume: 1
+    pitch: 1
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&c    不存在 {0} 全息图...'
+  - '&a    请确认唯一名称后重试...'
+  - '&l'
+全息-创建成功:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_HARP
+    volume: 1
+    pitch: 1
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&a    已成功创建 {0} 全息图...'
+  - '&a    你可以在配置文件中继续修改...'
+  - '&l'
+全息-删除成功:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_HARP
+    volume: 1
+    pitch: 1
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&e    已成功删除 {0} 全息图...'
+  - '&l'
+全息-创建失败-重复:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_DIDGERIDOO
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&c    已存在这个 {0} 全息图...'
+  - '&l'
+全息-添加新行-成功:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_HARP
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&a    已往 &f{0} &a添加新的一行...'
+  - '&b    &7新的内容: &f{1}'
+  - '&l'
+全息-添加新行-捕获:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_HARP
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&a    请输入你要新加的内容...'
+  - '&l'
+全息-删除一行-成功:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_HARP
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&a    已删除 &f{0} 第 &f{1} 行的内容...'
+  - '&l'
+
+
+# 玩家操作
+玩家-创建成功:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_HARP
+    volume: 1
+    pitch: 1
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&a    已成功创建全息图...'
+  - '&l'
+玩家-创建失败-不允许的世界:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_DIDGERIDOO
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&c    这个世界不允许创建全息图...'
+  - '&l'
+玩家-创建失败-存在屏蔽词汇:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_DIDGERIDOO
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&c    你的文本 &f{0} &c是违禁词，创建失败...'
+  - '&l'
+玩家-创建失败-文本过长:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_DIDGERIDOO
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&c    你的 &f{0} &c字符超出限制...'
+  - '&l'
+玩家-创建失败-超过数量限制:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_DIDGERIDOO
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&c    你创建了太多的全息图了..'
+  - '&l'
+玩家-创建失败-重复的ID:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_DIDGERIDOO
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&c    你已经创建过这个名称的全息图了..'
+  - '&l'
+玩家-行操作-不存在:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_DIDGERIDOO
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&c    不存在这个ID的全息图..'
+  - '&l'
+玩家-添加行失败-超出限制:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_DIDGERIDOO
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&c    你这个全息图已达最大行限制..'
+  - '&l'
+玩家-删除行失败-不可删除:
+  - type: SOUND
+    sound: BLOCK_NOTE_BLOCK_DIDGERIDOO
+    volume: 1
+    pitch: 2
+  - '&1'
+  - '&e  GeekHologram &8>&7>&f>'
+  - '&l'
+  - '&c    全息标签行不可删除..'
+  - '&l'
