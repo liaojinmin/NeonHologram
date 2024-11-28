@@ -3,26 +3,20 @@ package me.neon.holo.hologram
 import me.neon.holo.conf.Option
 import me.neon.holo.event.HologramCreateEvent
 import me.neon.holo.event.HologramDeleteEvent
-import me.neon.holo.event.HologramInteractEvent
 import me.neon.holo.event.HologramReloadEvent
-import me.neon.holo.hologram.ComponentHandler.Companion.findPair
 import me.neon.holo.utils.forFile
 import me.neon.holo.utils.toStringList
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
-import taboolib.common.platform.event.SubscribeEvent
 
 import taboolib.common.platform.function.*
 import taboolib.common.util.Location
 import taboolib.common5.FileWatcher
-import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.module.chat.colored
 import taboolib.module.configuration.ConfigFile
 import taboolib.module.configuration.ConfigSection
 import taboolib.module.configuration.SecuredFile
-import taboolib.module.nms.MinecraftVersion
-import taboolib.module.nms.PacketReceiveEvent
 import java.io.File
 import kotlin.system.measureTimeMillis
 

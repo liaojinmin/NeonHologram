@@ -7,7 +7,9 @@ import com.google.gson.annotations.Expose
 import me.neon.holo.HologramAPI
 import me.neon.holo.conf.Option
 import me.neon.holo.utils.forFile
+import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake

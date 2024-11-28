@@ -5,8 +5,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
-    id("org.jetbrains.kotlin.jvm") version "1.8.22" apply false
-    id("io.izzel.taboolib") version "2.0.21" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.8.22" apply true
+    id("io.izzel.taboolib") version "2.0.22" apply false
 }
 
 subprojects {
@@ -23,7 +23,11 @@ subprojects {
             install("minecraft-kether", "minecraft-chat", "minecraft-i18n")
 
             // bukkit
+            //install("bukkit-util", "bukkit-xseries", "bukkit-hook")
             install("bukkit-util", "bukkit-xseries",  "bukkit-nms", "bukkit-hook")
+
+
+            //install(BukkitNMSDataSerializer)
 
             install(Metrics, CommandHelper)
 
@@ -36,15 +40,13 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven("https://oss.sonatype.org/content/repositories/snapshots")
         maven("https://repo.tabooproject.org/repository/releases")
-        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-        maven("https://repo.codemc.org/repository/maven-public")
-        maven("https://repo.rosewooddev.io/repository/public/")
-        maven("https://repo.opencollab.dev/maven-snapshots/")
-        maven("https://maven.pkg.github.com/LoneDev6/API-ItemsAdder")
         maven("https://jitpack.io")
-        maven { url = uri("https://repo.spongepowered.org/maven") }
+        maven("https://libraries.minecraft.net")
+        maven("https://repo1.maven.org/maven2")
+        maven("https://maven.aliyun.com/repository/central")
+        maven("https://repo.codemc.io/repository/nms/")
+        maven("http://sacredcraft.cn:8081/repository/releases") { isAllowInsecureProtocol = true }
     }
 
     dependencies {

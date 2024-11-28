@@ -6,9 +6,11 @@ import taboolib.common.util.Location
 import java.util.*
 
 /**
- * @作者: 老廖
- * @时间: 2023/5/31 15:23
- * @包: me.geek.cos.common.nms.minecraft
+ * NeonHologram
+ * me.neon.holo.hologram
+ *
+ * @author 老廖
+ * @since 2024/11/27 15:23
  */
 interface EntitySpawnHandler {
 
@@ -22,7 +24,10 @@ interface EntitySpawnHandler {
      * @param location 生成坐标
      * @param data 特殊数据
      */
-    fun spawnEntity(player: Player, entityType: EntityType, entityId: Int, uuid: UUID, location: Location, data: Int = 0)
+    fun spawnEntity(player: Player, entityType: EntityType, entityId: Int, uuid: UUID, location: Location, data: Int = 0) {
+        return spawnEntity(listOf(player), entityType, entityId, uuid, location, data)
+    }
+    fun spawnEntity(player: List<Player>, entityType: EntityType, entityId: Int, uuid: UUID, location: Location, data: Int = 0)
 
     /**
      * 在 1.18 及以下版本生成 EntityLiving 类型的数据包实体，在 1.19 版本中被 [spawnEntity] 取代。
@@ -35,6 +40,9 @@ interface EntitySpawnHandler {
      * @param uuid 实体 UUID
      * @param location 实体坐标
      */
-    fun spawnEntityLiving(player: Player, entityType: EntityType, entityId: Int, uuid: UUID, location: Location)
+    fun spawnEntityLiving(player: Player, entityType: EntityType, entityId: Int, uuid: UUID, location: Location) {
+        return spawnEntityLiving(listOf(player), entityType, entityId, uuid, location)
+    }
+    fun spawnEntityLiving(player: List<Player>, entityType: EntityType, entityId: Int, uuid: UUID, location: Location)
 
 }

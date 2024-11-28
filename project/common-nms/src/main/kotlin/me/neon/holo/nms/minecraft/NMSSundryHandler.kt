@@ -1,39 +1,34 @@
 package me.neon.holo.nms.minecraft
 
 import me.neon.holo.nms.agent.EntityType
-import me.neon.holo.nms.packet.PacketArmorStandMeta
-import me.neon.holo.nms.packet.PacketEntityName
+import me.neon.libs.taboolib.nms.DataSerializer
 import org.bukkit.inventory.ItemStack
 
 /**
- * @作者: 老廖
- * @时间: 2023/6/1 16:55
- * @包: me.geek.cos.common.nms.minecraft
+ * NeonHologram
+ * me.neon.holo.hologram
+ *
+ * @author 老廖
+ * @since 2024/11/27 15:23
  */
 interface NMSSundryHandler {
 
+    fun adaptWriteMetadata(dataSerializer: DataSerializer, meta: List<Any>): DataSerializer
 
     /**
      * 解析NMS生物种类ID
      */
     fun adaptNMSEntityType(type: EntityType): Any
 
-    /**
-     * 解析盔甲架属性
-     */
-    fun adaptArmorStandMeta(packetArmorStandMeta: PacketArmorStandMeta): Array<Any>
+    fun createChatBaseComponent(index: Int, rawMessage: String?): Any
 
-    /**
-     * 解析物品Meta
-     */
-    fun adaptItemStackMeta(glow: Boolean, item: ItemStack): Array<Any>
+    fun createItemStackMeta(index: Int, itemStack: ItemStack): Any
 
+    fun createStringMeta(index: Int, value: String): Any
 
-    /**
-     * 解析生物名称属性
-     */
-    fun adaptEntityName(packetEntityName: PacketEntityName): Array<Any>
+    fun createBooleanMeta(index: Int, value: Boolean): Any
 
+    fun createByteMeta(index: Int, value: Byte): Any
 
     /**
      * 使用 CraftChatMessage 将字符串转换为 IChatBaseComponent 类型

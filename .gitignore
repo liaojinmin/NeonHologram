@@ -1,0 +1,11 @@
+# 项目排除路径
+/.gradle/
+/plugin/build/
+/project/common/build/
+/project/common/build/classes/kotlin/main/
+/project/common-impl/build/
+/project/common-impl/build/classes/kotlin/main/
+/project/common-nms/build/
+/project/common-nms/build/classes/kotlin/main/
+/project/common-nms-n120/build/
+/project/common-nms-n120/build/classes/kotlin/main/

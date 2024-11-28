@@ -1,22 +1,20 @@
 package me.neon.holo.nms.minecraft
 
-import me.neon.holo.nms.Packet
-import me.neon.holo.nms.agent.EntityType
-import me.neon.holo.nms.packet.PacketArmorStandMeta
-import me.neon.holo.nms.packet.PacketEntityName
-import me.neon.holo.nms.data.*
-
+import me.neon.holo.nms.agent.*
+import me.neon.libs.taboolib.nms.DataSerializer
+import net.minecraft.server.v1_9_R2.DataWatcher
 import org.bukkit.inventory.ItemStack
-
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.module.nms.MinecraftVersion
 import java.util.*
 import kotlin.collections.ArrayList
 
 /**
- * @作者: 老廖
- * @时间: 2023/6/1 16:55
- * @包: me.geek.holo.nms.minecraft
+ * NeonHologram
+ * me.neon.holo.hologram
+ *
+ * @author 老廖
+ * @since 2024/11/27 15:23
  */
 class NMSSundryHandlerImpl: NMSSundryHandler {
     /**
@@ -45,41 +43,17 @@ class NMSSundryHandlerImpl: NMSSundryHandler {
         error("不支持的类型 $type $names")
     }
 
-    override fun adaptArmorStandMeta(packetArmorStandMeta: PacketArmorStandMeta): Array<Any> {
-        var entity = 0
-        var armorstand = 0
-        if (packetArmorStandMeta.isInvisible) entity += 0x20.toByte()
-        if (packetArmorStandMeta.isGlowing) entity += 0x40.toByte()
-        if (packetArmorStandMeta.isSmall) armorstand += 0x01.toByte()
-        if (packetArmorStandMeta.hasArms) armorstand += 0x04.toByte()
-        if (packetArmorStandMeta.noBasePlate) armorstand += 0x08.toByte()
-        if (packetArmorStandMeta.isMarker) armorstand += 0x10.toByte()
-        return arrayOf(createByteMeta(0, entity.toByte()),
-            createByteMeta(Packet.armorStandIndex, armorstand.toByte()))
+    @Suppress("UNCHECKED_CAST")
+    override fun adaptWriteMetadata(dataSerializer: DataSerializer, meta: List<Any>): DataSerializer {
+        DataWatcher.a(meta as List<DataWatcher.Item<*>>, dataSerializer.build() as net.minecraft.server.v1_9_R2.PacketDataSerializer)
+        return dataSerializer
     }
-
-
-    override fun adaptItemStackMeta(glow: Boolean, item: ItemStack): Array<Any> {
-        var entity = 0
-        if (glow) entity += 0x40.toByte()
-        return arrayOf(
-            createByteMeta(0, entity.toByte()),
-            // noGravity
-            createBooleanMeta(5, true),
-            createItemStackMeta(Packet.itemStackIndex, item)
-        )
-    }
-
-    override fun adaptEntityName(packetEntityName: PacketEntityName): Array<Any> {
-        return arrayOf(getMetaEntityChatBaseComponent(2, packetEntityName.name), createBooleanMeta(3, packetEntityName.isCustomNameVisible))
-    }
-
 
     override fun craftChatMessageFromString(message: String): Any {
         return CraftChatMessage19.fromString(message)[0]
     }
 
-    private fun getMetaEntityChatBaseComponent(index: Int, rawMessage: String?): Any {
+    override fun createChatBaseComponent(index: Int, rawMessage: String?): Any {
         return when {
             majorLegacy >= 11900 -> {
                 NMSDataWatcherItem(
@@ -99,8 +73,7 @@ class NMSSundryHandlerImpl: NMSSundryHandler {
         }
     }
 
-
-    private fun createItemStackMeta(index: Int, itemStack: ItemStack): Any {
+    override fun createItemStackMeta(index: Int, itemStack: ItemStack): Any {
         return when {
             majorLegacy >= 11900 -> {
                 NMSDataWatcherItem(
@@ -129,7 +102,7 @@ class NMSSundryHandlerImpl: NMSSundryHandler {
         }
     }
 
-    private fun createStringMeta(index: Int, value: String): Any {
+    override fun createStringMeta(index: Int, value: String): Any {
         return if (MinecraftVersion.majorLegacy >= 11900) {
                 NMSDataWatcherItem(NMSDataWatcherObject(index, NMSDataWatcherRegistry.STRING), value)
             } else {
@@ -138,7 +111,7 @@ class NMSSundryHandlerImpl: NMSSundryHandler {
 
     }
 
-    private fun createByteMeta(index: Int, value: Byte): Any {
+    override fun createByteMeta(index: Int, value: Byte): Any {
         return if (MinecraftVersion.majorLegacy >= 11900) {
             NMSDataWatcherItem(NMSDataWatcherObject(index, NMSDataWatcherRegistry.BYTE), value)
         } else {
@@ -146,7 +119,7 @@ class NMSSundryHandlerImpl: NMSSundryHandler {
         }
     }
 
-    private fun createBooleanMeta(index: Int, value: Boolean): Any {
+    override fun createBooleanMeta(index: Int, value: Boolean): Any {
         return when {
             MinecraftVersion.majorLegacy >= 11900 -> {
                 NMSDataWatcherItem(NMSDataWatcherObject(index, NMSDataWatcherRegistry.BOOLEAN), value)

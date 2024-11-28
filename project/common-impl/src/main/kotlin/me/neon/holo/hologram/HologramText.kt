@@ -1,20 +1,20 @@
 package me.neon.holo.hologram
 
-import me.neon.holo.nms.Packet
+import kotlinx.coroutines.yield
+import me.neon.holo.nms.PacketHandler
 import me.neon.holo.nms.PlaceholderParser
 import me.neon.holo.nms.agent.EntityType
-import me.neon.holo.nms.packet.PacketArmorStandMeta
-import me.neon.holo.nms.packet.PacketEntityName
 import org.bukkit.entity.Player
 
-import taboolib.common.platform.ProxyPlayer
 import taboolib.common.util.Location
 
 /**
- * @作者: 老廖
- * @时间: 2023/6/28 21:01
- * @包: me.geek.holo.module.hologram
- */
+ * NeonHologram
+ * me.neon.holo.hologram
+ *
+ * @author 老廖
+ * @since 2023/6/28 21:01
+*/
 class HologramText(
     override var displayName: String,
     override var highSet: Double = 0.0,
@@ -23,25 +23,31 @@ class HologramText(
 ): Component() {
 
     override fun spawn(view: Player, location: Location): Component {
-        Packet.nmsEntitySpawnHandler.spawnEntityLiving(view, EntityType.ARMOR_STAND, this.entityId, this.uuid, location)
+        PacketHandler.sendSpawnArmorStand(listOf(view), entityId, uuid, location)
         val contains = displayName.contains("{notInvisible}")
-        PacketArmorStandMeta(this.entityId,
+
+        PacketHandler.sendArmorStandMeta(listOf(view), entityId,
             isInvisible = !contains,
             isGlowing = false,
             isSmall = false,
             hasArms = false,
             noBasePlate = true,
-            isMarker = false).send(view)
+            isMarker = false
+        )
         if (contains) {
-            PacketEntityName(this.entityId,
-                true,
-                PlaceholderParser.parsePlaceholderAPI(this.displayName.replace("{notInvisible}", ""), view)).send(view)
-        } else {
-            PacketEntityName(
+            PacketHandler.sendEntityName(
+                listOf(view),
                 this.entityId,
-                true,
-                PlaceholderParser.parsePlaceholderAPI(this.displayName, view)
-            ).send(view)
+                PlaceholderParser.parsePlaceholderAPI(this.displayName.replace("{notInvisible}", ""), view),
+                true
+            )
+        } else {
+            PacketHandler.sendEntityName(
+                listOf(view),
+                this.entityId,
+                PlaceholderParser.parsePlaceholderAPI(this.displayName, view),
+                true
+            )
         }
         return this
     }
@@ -49,8 +55,12 @@ class HologramText(
     override fun tick(view: List<Player>, location: Location?) {
         if (have()) {
             view.forEach {
-                PacketEntityName(this.entityId, true,
-                    PlaceholderParser.parsePlaceholderAPI(this.displayName, it)).send(it)
+                PacketHandler.sendEntityName(
+                    listOf(it),
+                    this.entityId,
+                    PlaceholderParser.parsePlaceholderAPI(this.displayName, it),
+                    true
+                )
             }
         }
     }
@@ -62,7 +72,7 @@ class HologramText(
 
     override fun destroy(view: Player) {
         if (viewPlayer.remove(view.name)) {
-            Packet.nmsEntityOperatorHandler.destroyEntity(view, entityId)
+            PacketHandler.sendEntityDestroy(listOf(view), entityId)
         }
     }
 

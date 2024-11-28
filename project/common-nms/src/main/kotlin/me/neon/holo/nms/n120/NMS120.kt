@@ -1,11 +1,7 @@
 package me.neon.holo.nms.n120
 
-
-
 import taboolib.common.util.unsafeLazy
 import taboolib.module.nms.nmsProxy
-
-
 
 /**
  * @作者: 老廖

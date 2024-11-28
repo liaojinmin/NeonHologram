@@ -34,7 +34,7 @@ object HologramAPI {
 
     val groupConfig: MutableList<Group> = mutableListOf()
 
-    lateinit var shieldConfig: Shield
+    var shieldConfig: Shield = Shield()
         private set
 
     @Awake(LifeCycle.LOAD)

@@ -16,7 +16,7 @@ import java.net.URL
  */
 class Shield(
     val local: MutableSet<String> = mutableSetOf(),
-    private val cloudUrl: List<String>
+    private val cloudUrl: List<String> = emptyList()
 ) {
     private val gsonBuilder: GsonBuilder = GsonBuilder()
 

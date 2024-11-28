@@ -7,6 +7,7 @@ dependencies {
     compileOnly("ink.ptms.core:v11800:11800:mapped")
     compileOnly("ink.ptms:nms-all:1.0.0")
     compileOnly("ink.ptms.core:v11604:11604")
+    compileOnly(project(":project:common-nms-data-serializer"))
 
 }
 

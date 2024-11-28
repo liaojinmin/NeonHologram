@@ -9,7 +9,7 @@ hologram:
   context:
     # 这里代表第一页
     - text:
-        - "&6这是一个滚动面板 &7by &bGeekHologram {highSet: 0.25}"
+        - "&6这是一个滚动面板 &7by &bNeonHologram {highSet: 0.25}"
         - " "
         - "&7我是第一页的内容"
         - "&7服务器更新日志，现在有滚动广告全息图了!!!"

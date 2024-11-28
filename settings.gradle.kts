@@ -11,4 +11,17 @@ include("project:common")
 include("project:common-impl")
 include("project:common-nms")
 include("project:common-nms-n120")
+include("project:common-nms-data-serializer")
+include("project:common-nms-data-serializer:nms-data-serializer-12005")
+include("project:common-nms-data-serializer:nms-data-serializer-legacy")
 //include("project:common-display")
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+    plugins {
+        kotlin("jvm") version "1.8.22"
+    }
+}

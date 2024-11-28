@@ -1,0 +1,139 @@
+package me.neon.libs.taboolib.nms
+
+import com.google.common.base.Charsets
+import com.google.common.collect.ForwardingMultimap
+import io.netty.handler.codec.EncoderException
+import taboolib.library.reflex.Reflex.Companion.getProperty
+import java.io.DataOutput
+import java.util.*
+
+/**
+ * Adyeshach
+ * taboolib.module.nms.DataSerializer
+ *
+ * @author 坏黑
+ * @since 2022/12/12 23:00
+ */
+interface DataSerializer {
+
+    fun writeByte(byte: Byte): DataSerializer
+
+    fun writeBytes(bytes: ByteArray): DataSerializer
+
+    fun writeShort(short: Short): DataSerializer
+
+    fun writeInt(int: Int): DataSerializer
+
+    fun writeLong(long: Long): DataSerializer
+
+    fun writeFloat(float: Float): DataSerializer
+
+    fun writeDouble(double: Double): DataSerializer
+
+    fun writeBoolean(boolean: Boolean): DataSerializer
+
+    fun writeUUID(uuid: UUID): DataSerializer {
+        writeLong(uuid.mostSignificantBits)
+        writeLong(uuid.leastSignificantBits)
+        return this
+    }
+
+    fun writeBlockPosition(x: Int, y: Int, z: Int): DataSerializer {
+        writeLong((x.toLong() and 67108863 shl 38) or (y.toLong() and 4095 shl 26) or (z.toLong() and 67108863 shl 0))
+        return this
+    }
+
+    fun writeVarIntArray(intArray: IntArray): DataSerializer {
+        writeVarInt(intArray.size)
+        intArray.forEach { writeVarInt(it) }
+        return this
+    }
+
+    fun writeVarInt(int: Int): DataSerializer {
+        var i = int
+        while (i and -128 != 0) {
+            writeByte((i and 127 or 128).toByte())
+            i = i ushr 7
+        }
+        writeByte(i.toByte())
+        return this
+    }
+
+    fun <T> writeNullable(value: T?, writer: (T) -> Unit): DataSerializer {
+        if (value == null) {
+            writeBoolean(false)
+        } else {
+            writeBoolean(true)
+            writer(value)
+        }
+        return this
+    }
+
+    fun <E : Enum<E>> writeEnumSet(enumSet: EnumSet<E>, enumClass: Class<E>): DataSerializer {
+        val enumConstants = enumClass.enumConstants
+        val bitSet = BitSet(enumConstants.size)
+        for (i in enumConstants.indices) {
+            bitSet.set(i, enumSet.contains(enumConstants[i]))
+        }
+        writeFixedBitSet(bitSet, enumConstants.size)
+        return this
+    }
+
+    fun writeFixedBitSet(bitSet: BitSet, size: Int): DataSerializer {
+        if (bitSet.length() > size) {
+            throw EncoderException("BitSet is larger than expected size (${bitSet.length()}>$size)")
+        } else {
+            writeBytes(bitSet.toByteArray().copyOf(-Math.floorDiv(-size, 8)))
+        }
+        return this
+    }
+
+    fun writeString(string: String): DataSerializer {
+        val arr = string.toByteArray(Charsets.UTF_8)
+        if (arr.size > 32767) {
+            throw EncoderException("String too big (was ${string.length} bytes encoded, max 32767)")
+        } else {
+            writeVarInt(arr.size)
+            writeBytes(arr)
+        }
+        return this
+    }
+
+    fun writeUtf(string: String, length: Int = 32767): DataSerializer {
+        if (string.length > length) {
+            throw EncoderException("String too big (was ${string.length} bytes encoded, max 32767)")
+        } else {
+            val arr = string.encodeToByteArray()
+            val maxEncodedUtfLength = length * 3
+            if (arr.size > maxEncodedUtfLength) {
+                throw EncoderException("String too big (was ${arr.size} bytes encoded, max $maxEncodedUtfLength)")
+            } else {
+                writeVarInt(arr.size)
+                writeBytes(arr)
+            }
+        }
+        return this
+    }
+
+    fun writeGameProfileProperties(map: ForwardingMultimap<String, Any>): DataSerializer {
+        writeVarInt(map.size())
+        map.values().forEach { property ->
+            writeUtf(property.getProperty<String>("name")!!)
+            writeUtf(property.getProperty<String>("value")!!)
+            val signature = property.getProperty<String>("signature")
+            if (signature != null) {
+                writeBoolean(true)
+                writeUtf(signature)
+            } else {
+                writeBoolean(false)
+            }
+        }
+        return this
+    }
+
+    fun writeComponent(json: String): DataSerializer
+
+    fun build(): Any
+
+    fun dataOutput(): DataOutput
+}

@@ -10,12 +10,12 @@ hologram:
     lineSpacing: 0.25
   context:
     # 这里代表第一页
-    - - "&6这是一个多页全息面板 &7by &bGeekHologram {highSet: 0.25}"
+    - - "&6这是一个多页全息面板 &7by &bNeonHologram {highSet: 0.25}"
       - "&7我是第一页的内容 {highSet: 0.25}"
       - "§7(§f左键§8=§e上一页§7) &f{now_page}&7/&a{max_page} (§f右键§8=§e下一页§7)"
 
     # 这里代表第二页
-    - - "&6这是一个多页全息面板 &7by &bGeekHologram"
+    - - "&6这是一个多页全息面板 &7by &bNeonHologram"
       - " "
       - "&7我是第二页的内容"
       - " "

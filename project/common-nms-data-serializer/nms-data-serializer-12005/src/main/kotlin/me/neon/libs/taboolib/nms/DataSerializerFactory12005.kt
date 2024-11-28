@@ -1,21 +1,23 @@
-package me.neon.holo.nms.data
+package me.neon.libs.taboolib.nms
 
-import net.minecraft.network.PacketDataSerializer
-import io.netty.buffer.ByteBuf
+import io.netty.buffer.ByteBufOutputStream
 import io.netty.buffer.Unpooled
-import net.minecraft.server.v1_9_R2.DataWatcher
+import net.minecraft.core.IRegistryCustom
+import net.minecraft.network.RegistryFriendlyByteBuf
+import net.minecraft.network.chat.ComponentSerialization
+import org.bukkit.craftbukkit.v1_21_R1.util.CraftChatMessage
+import java.io.DataOutput
 
 /**
  * Adyeshach
- * ink.ptms.adyeshach.api.dataserializer.DataSerializerFactoryImpl
+ * taboolib.module.nms.DataSerializerFactoryImpl
  *
  * @author 坏黑
  * @since 2022/12/12 23:30
  */
-@Suppress("UNCHECKED_CAST")
-class DataSerializerFactoryImpl(private val buf: ByteBuf) : DataSerializerFactory, DataSerializer {
+class DataSerializerFactory12005(private val buf: RegistryFriendlyByteBuf) : DataSerializerFactory, DataSerializer {
 
-    constructor() : this(Unpooled.buffer())
+    constructor() : this(RegistryFriendlyByteBuf(Unpooled.buffer(), IRegistryCustom.EMPTY))
 
     override fun writeByte(byte: Byte): DataSerializer {
         return buf.writeByte(byte.toInt()).let { this }
@@ -49,16 +51,20 @@ class DataSerializerFactoryImpl(private val buf: ByteBuf) : DataSerializerFactor
         return buf.writeBoolean(boolean).let { this }
     }
 
-    override fun writeMetadata(meta: List<Any>): DataSerializer {
-        return DataWatcher.a(meta as List<DataWatcher.Item<*>>, buf as net.minecraft.server.v1_9_R2.PacketDataSerializer).let { this }
+    override fun writeComponent(json: String): DataSerializer {
+        ComponentSerialization.TRUSTED_STREAM_CODEC.encode(buf, CraftChatMessage.fromJSON(json))
+        return this
     }
 
-
-    override fun toNMS(): Any {
+    override fun build(): Any {
         return buf
     }
 
+    override fun dataOutput(): DataOutput {
+        return ByteBufOutputStream(buf)
+    }
+
     override fun newSerializer(): DataSerializer {
-        return DataSerializerFactoryImpl(PacketDataSerializer(Unpooled.buffer()))
+        return DataSerializerFactory12005(RegistryFriendlyByteBuf(Unpooled.buffer(), IRegistryCustom.EMPTY))
     }
 }
