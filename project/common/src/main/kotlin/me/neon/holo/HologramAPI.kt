@@ -9,6 +9,7 @@ import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.function.console
+import taboolib.common.platform.function.info
 import taboolib.common.platform.function.pluginId
 import taboolib.common.platform.function.pluginVersion
 import taboolib.module.configuration.Config
@@ -49,6 +50,7 @@ object HologramAPI {
     @Awake(LifeCycle.DISABLE)
     private fun disable() {
         hologramManager.unloadAllHologram()
+        pitchIsLoad = false
     }
 
     @Awake(LifeCycle.ENABLE)
@@ -61,12 +63,27 @@ object HologramAPI {
         hologramManager.loadAllHologram()
         // 加载玩家全息
         //hologramManager.loadPlayerHologram()
+
+        pitchIsLoad = true
     }
 
     @Awake(LifeCycle.ACTIVE)
     private fun active() {
         //  VersionUpdate().checkUp()
     }
+
+    var pitchIsLoad: Boolean = false
+        private set(value) {
+            field = value
+            val none1 = "This code is pure joke..."
+            val none2 = "\"坏黑\" is the founding developer of Taboolib"
+            if (value) {
+                info("内置坏黑已活跃...")
+                info("  已为坏黑多占用一片空间...")
+            } else {
+                info("噢不~ 你失去了坏黑...")
+            }
+        }
 
     private fun loadSettings() {
         groupConfig.clear()
